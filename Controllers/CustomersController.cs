@@ -10,6 +10,7 @@ using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly EasyTraderDbContext _context;
@@ -46,7 +47,6 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Customers/Create
-        [Authorize]
         public IActionResult Create()
         {
             return View();
