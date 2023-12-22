@@ -1,3 +1,4 @@
+using Auth0.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 
@@ -12,6 +13,16 @@ namespace WebApplication1
             // Add Connection to Database
             var conn = builder.Configuration.GetConnectionString("EasyTraderDbConnection");
             builder.Services.AddDbContext<EasyTraderDbContext>(q => q.UseSqlServer(conn));
+
+
+            builder.Services.AddAuth0WebAppAuthentication(options =>
+            {
+                options.Domain = builder.Configuration["Auth0:Domain"];
+                options.ClientId = builder.Configuration["Auth0:ClientId"];
+            });
+            builder.Services.AddControllersWithViews();
+
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -31,6 +42,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
